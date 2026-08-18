@@ -1,5 +1,13 @@
-export function cn(...classes: Array<string | false | null | undefined>) {
-  return classes.filter(Boolean).join(" ");
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+/**
+ * Combină clase Tailwind și rezolvă corect conflictele (ex: `w-full` +
+ * `w-[252px]` din default + override) păstrând ultima valoare intenționată,
+ * indiferent de ordinea de apariție a claselor în stylesheet-ul generat.
+ */
+export function cn(...classes: ClassValue[]) {
+  return twMerge(clsx(...classes));
 }
 
 const roNumber = new Intl.NumberFormat("ro-RO");
