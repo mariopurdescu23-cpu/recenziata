@@ -61,7 +61,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       sections={sections}
       brandLabel="Recenziata"
       brandSub="Panou de administrare"
-      account="Mario Purdescu"
+      account="Andrei Vasilescu"
       accountRole="Owner"
       footerCard={<StatusCard />}
       homeHref="/admin"
