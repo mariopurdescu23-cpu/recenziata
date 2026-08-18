@@ -154,28 +154,40 @@ export function FeedbackTable({
                       {relativeFromMinutes(f.minutesAgo)}
                     </span>
                   </td>
-                  <td className="px-4 py-3.5 pr-5 text-right">
-                    <div className="inline-flex items-center gap-2">
-                      {f.wentToGoogle && (
-                        <Tooltip label="A continuat către Google">
-                          <span className="text-gold-500">
-                            <Star
-                              className="size-3.5"
-                              fill="currentColor"
-                              strokeWidth={0}
-                            />
-                          </span>
-                        </Tooltip>
-                      )}
-                      {statusOf(f) !== "rezolvat" && (
-                        <button
-                          onClick={() => resolve(f.id, f.message)}
-                          className="inline-flex h-6 items-center gap-1 rounded-full border border-ivory-300 bg-white px-2 text-[11px] font-medium text-ink-500 opacity-0 transition-all duration-200 group-hover:opacity-100 hover:border-positive-500/40 hover:text-positive-500 focus-visible:opacity-100"
-                        >
-                          <Check className="size-3" strokeWidth={2.6} />
-                          Rezolvă
-                        </button>
-                      )}
+                  <td className="px-4 py-3.5 pr-5">
+                    <div className="flex items-center justify-end gap-2">
+                      <span className="grid w-4 shrink-0 place-items-center">
+                        {f.wentToGoogle && (
+                          <Tooltip label="A continuat către Google">
+                            <span className="text-gold-500">
+                              <Star
+                                className="size-3.5"
+                                fill="currentColor"
+                                strokeWidth={0}
+                              />
+                            </span>
+                          </Tooltip>
+                        )}
+                      </span>
+                      {/* Randat mereu, ca lățimea rândului să nu difere după
+                          starea rezolvat/nerezolvat — altfel steaua "aluneca"
+                          pe orizontală de la un rând la altul. */}
+                      <button
+                        onClick={() =>
+                          statusOf(f) !== "rezolvat" && resolve(f.id, f.message)
+                        }
+                        tabIndex={statusOf(f) === "rezolvat" ? -1 : 0}
+                        aria-hidden={statusOf(f) === "rezolvat"}
+                        className={cn(
+                          "inline-flex h-6 shrink-0 items-center gap-1 rounded-full border border-ivory-300 bg-white px-2 text-[11px] font-medium text-ink-500 transition-all duration-200 hover:border-positive-500/40 hover:text-positive-500 focus-visible:opacity-100",
+                          statusOf(f) === "rezolvat"
+                            ? "pointer-events-none opacity-0"
+                            : "opacity-0 group-hover:opacity-100",
+                        )}
+                      >
+                        <Check className="size-3" strokeWidth={2.6} />
+                        Rezolvă
+                      </button>
                       <motion.span layout>
                         <Badge tone={statusTone[statusOf(f)]}>
                           {statusLabel[statusOf(f)]}
@@ -215,6 +227,9 @@ export function FeedbackTable({
                 {f.live && <Badge tone="gold">live</Badge>}
               </div>
               <div className="mt-2.5 flex flex-wrap items-center gap-2 pl-4">
+                <Badge tone={f.sentiment === "pozitiv" ? "positive" : "negative"} dot>
+                  {f.sentiment === "pozitiv" ? "Pozitiv" : "Negativ"}
+                </Badge>
                 <Badge tone="muted">{f.category}</Badge>
                 <Badge tone={statusTone[statusOf(f)]}>
                   {statusLabel[statusOf(f)]}
