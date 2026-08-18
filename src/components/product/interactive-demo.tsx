@@ -195,8 +195,8 @@ export function InteractiveDemo() {
               })}
             </ol>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Button onClick={startLive} variant="gold" size="lg" sheen>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <Button onClick={startLive} variant="gold" size="lg" sheen className="w-full sm:w-auto">
                 <Play className="size-4" fill="currentColor" strokeWidth={0} />
                 Testează fluxul
               </Button>
@@ -204,6 +204,7 @@ export function InteractiveDemo() {
                 href="/maison-noir"
                 variant="outlineLight"
                 size="lg"
+                className="w-full sm:w-auto"
               >
                 Deschide pagina reală
                 <ArrowRight className="size-4" />
@@ -226,7 +227,19 @@ export function InteractiveDemo() {
           </div>
 
           {/* Telefon */}
-          <div className="order-1 flex justify-center lg:order-2">
+          <div className="order-1 flex flex-col items-center gap-4 lg:order-2">
+            {/* Reper de context pentru mobil — fără el, telefonul apare înaintea
+                explicației și nu se știe ce pas se vede. */}
+            <div className="flex items-center gap-2.5 lg:hidden">
+              <span className="eyebrow text-gold-300">
+                {live ? "Live" : `${String(index + 1).padStart(2, "0")}/${String(steps.length).padStart(2, "0")}`}
+              </span>
+              <span className="h-3 w-px bg-white/15" />
+              <span className="text-[12.5px] font-medium text-ivory-100">
+                {live ? "Simulator activ" : steps[index].title}
+              </span>
+            </div>
+
             <div className="relative">
               <Glow className="-inset-16" tone="goldSoft" opacity={0.8} />
               <PhoneFrame className="relative w-[252px] sm:w-[292px]">
@@ -249,6 +262,25 @@ export function InteractiveDemo() {
                 )}
               </PhoneFrame>
             </div>
+
+            {/* Progres tapabil, la îndemâna degetului mare — evită derularea
+                până la listă doar ca să schimbi pasul. */}
+            {!live && (
+              <div className="flex items-center gap-1.5 lg:hidden">
+                {steps.map((s, i) => (
+                  <button
+                    key={s.id}
+                    onClick={() => select(i)}
+                    aria-label={`Pasul ${i + 1}: ${s.title}`}
+                    aria-current={i === index}
+                    className={cn(
+                      "h-1.5 rounded-full transition-all duration-300",
+                      i === index ? "w-5 bg-gold-400" : "w-1.5 bg-white/20",
+                    )}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

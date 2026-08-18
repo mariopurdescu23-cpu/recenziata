@@ -1,6 +1,13 @@
+import { BadgeCheck } from "lucide-react";
 import { Eyebrow, Reveal } from "@/components/ui/primitives";
 import { testimonials } from "@/lib/data";
-import { initials } from "@/lib/utils";
+import { cn, initials } from "@/lib/utils";
+
+const avatarTones = [
+  "from-gold-300 to-gold-600",
+  "from-ink-500 to-ink-800",
+  "from-gold-400 to-ink-700",
+];
 
 export function Testimonials() {
   return (
@@ -39,11 +46,24 @@ export function Testimonials() {
                 </blockquote>
 
                 <figcaption className="mt-7 flex items-center gap-3">
-                  <span className="grid size-9 shrink-0 place-items-center rounded-full bg-ivory-200 text-[11.5px] font-medium text-ink-600">
-                    {initials(t.author)}
+                  <span className="relative shrink-0">
+                    <span
+                      className={cn(
+                        "grid size-11 place-items-center rounded-full bg-gradient-to-br text-[13px] font-medium text-white ring-2 ring-white",
+                        avatarTones[i % avatarTones.length],
+                      )}
+                    >
+                      {initials(t.author)}
+                    </span>
+                    <span
+                      className="absolute -right-1 -bottom-1 grid size-4 place-items-center rounded-full bg-white shadow-[0_1px_3px_rgba(8,8,10,0.15)]"
+                      title="Client verificat"
+                    >
+                      <BadgeCheck className="size-4 text-gold-500" strokeWidth={2} />
+                    </span>
                   </span>
                   <div className="min-w-0">
-                    <p className="truncate text-[13.5px] font-medium text-ink-950">
+                    <p className="flex items-center gap-1.5 truncate text-[13.5px] font-medium text-ink-950">
                       {t.author}
                     </p>
                     <p className="truncate text-[12px] text-ink-300">

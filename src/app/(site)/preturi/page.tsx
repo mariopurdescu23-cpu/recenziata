@@ -8,7 +8,7 @@ import { CalendarClock, PackageCheck, RefreshCcw } from "lucide-react";
 export const metadata: Metadata = {
   title: "Prețuri",
   description:
-    "Planuri de la 49 lei/lună și card NFC premium la 99 lei, plată unică. Fără contract minim, primele 14 zile gratuite.",
+    "Planuri de la 25 lei/lună și card NFC premium la 99 lei, plată unică. Fără contract minim, primele 14 zile gratuite.",
   alternates: { canonical: "/preturi" },
 };
 
