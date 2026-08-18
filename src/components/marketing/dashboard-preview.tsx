@@ -2,7 +2,7 @@
 
 import { ArrowRight, MessageSquareQuote, QrCode, Star, ThumbsUp } from "lucide-react";
 import { BrowserFrame } from "@/components/ui/browser-frame";
-import { LaptopFrame } from "@/components/product/laptop-frame";
+import { TabletFrame } from "@/components/product/tablet-frame";
 import { InteractionsChart, ReasonsDonut } from "@/components/dashboard/charts";
 import { Button } from "@/components/ui/button";
 import { Counter, Eyebrow, Reveal } from "@/components/ui/primitives";
@@ -52,7 +52,7 @@ export function DashboardPreview() {
 
         <Reveal delay={0.1} y={26}>
           <div className="mt-12 lg:mt-16">
-            <LaptopFrame>
+            <TabletFrame>
             <BrowserFrame
               url="recenziata.ro/dashboard"
               tone="dark"
@@ -143,7 +143,7 @@ export function DashboardPreview() {
                 </div>
               </div>
             </BrowserFrame>
-            </LaptopFrame>
+            </TabletFrame>
           </div>
         </Reveal>
       </div>
