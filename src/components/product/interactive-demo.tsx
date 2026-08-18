@@ -61,6 +61,7 @@ export function InteractiveDemo() {
   const [playing, setPlaying] = useState(false);
   const { toast } = useToast();
   const sectionRef = useRef<HTMLElement>(null);
+  const phoneRef = useRef<HTMLDivElement>(null);
   // Fără asta, secțiunea și-ar reface starea la fiecare 3,4 s chiar și când
   // utilizatorul citește cu totul altă parte a paginii.
   const inView = useInView(sectionRef, { margin: "-15% 0px -15% 0px" });
@@ -88,6 +89,7 @@ export function InteractiveDemo() {
     setLive(false);
     setPlaying(true);
     setIndex(0);
+    phoneRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
   }, []);
 
   const startLive = useCallback(() => {
@@ -276,7 +278,7 @@ export function InteractiveDemo() {
           </div>
 
           {/* Telefon */}
-          <div className="order-1 flex flex-col items-center gap-4 lg:order-2">
+          <div ref={phoneRef} className="order-1 flex scroll-mt-24 flex-col items-center gap-4 lg:order-2">
             {/* Reper de context pentru mobil — fără el, telefonul apare înaintea
                 explicației și nu se știe ce pas se vede. */}
             <div className="flex items-center gap-2.5 lg:hidden">

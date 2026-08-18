@@ -95,13 +95,27 @@ export function CommandPalette() {
   );
 
   useEffect(() => {
+    function isTypingTarget(el: EventTarget | null) {
+      if (!(el instanceof HTMLElement)) return false;
+      return (
+        el.tagName === "INPUT" ||
+        el.tagName === "TEXTAREA" ||
+        el.tagName === "SELECT" ||
+        el.isContentEditable
+      );
+    }
     function onKey(e: KeyboardEvent) {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        setOpen((v) => !v);
+      if (e.key === "Escape") {
+        setOpen(false);
         return;
       }
-      if (e.key === "Escape") setOpen(false);
+      const withModifier = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k";
+      const plainK =
+        !e.metaKey && !e.ctrlKey && !e.altKey && e.key.toLowerCase() === "k";
+      if ((withModifier || plainK) && !isTypingTarget(e.target)) {
+        e.preventDefault();
+        setOpen((v) => !v);
+      }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
