@@ -132,7 +132,13 @@ export function InteractiveDemo() {
         </div>
 
             <div className="mt-12 lg:rounded-2xl lg:border lg:border-white/[0.07] lg:bg-white/[0.02] lg:p-6 lg:pr-8 lg:shadow-[0_30px_80px_-40px_rgba(8,8,10,0.6)]">
-            <ol className="relative">
+            {/* min-h: descrierea pasului activ colapsează pe cel vechi și se
+                extinde pe cel nou în același timp — cele două animații de
+                înălțime nu se anulează perfect, iar lista se micșorează
+                tranzitoriu (~13px) înainte să revină. Cum panoul e aliniat pe
+                centru vertical cu telefonul, acea oscilație recentra telefonul
+                — de-asta "sărea" imaginea exact când avansa linia. */}
+            <ol className="relative min-h-[332px]">
               <div
                 aria-hidden
                 className="absolute top-2 bottom-2 left-[19px] w-px bg-white/[0.08]"
@@ -158,11 +164,13 @@ export function InteractiveDemo() {
                       className="group flex w-full gap-4 py-3.5 text-left sm:gap-5 sm:py-4"
                     >
                       <span
+                        // background-color pe style, nu pe clasă Tailwind: cn()
+                        // trece prin tailwind-merge, care elimină orice bg-* de
+                        // culoare considerându-l "în conflict" cu bg-gradient-to-b
+                        // — fără fundalul opac, linia se vede prin iconiță.
+                        style={{ backgroundColor: "var(--color-ink-950)" }}
                         className={cn(
-                          // bg-ink-950 e fundalul opac de sub gradient — fără el,
-                          // tonurile translucide (starea activă) lasă linia să se
-                          // vadă prin iconiță în loc să se oprească la marginea ei.
-                          "relative z-10 grid size-10 shrink-0 place-items-center rounded-xl border bg-ink-950 bg-gradient-to-b transition-all duration-500",
+                          "relative z-10 grid size-10 shrink-0 place-items-center rounded-xl border bg-gradient-to-b transition-all duration-500",
                           active
                             ? "border-gold-400/40 from-gold-400/18 to-gold-500/6 text-gold-300"
                             : past
