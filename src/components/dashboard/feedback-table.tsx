@@ -216,20 +216,18 @@ export function FeedbackTable({
               </div>
               <div className="mt-2.5 flex flex-wrap items-center gap-2 pl-4">
                 <Badge tone="muted">{f.category}</Badge>
-                <button
-                  onClick={() =>
-                    statusOf(f) !== "rezolvat" && resolve(f.id, f.message)
-                  }
-                  aria-label={
-                    statusOf(f) === "rezolvat"
-                      ? "Rezolvat"
-                      : "Marchează ca rezolvat"
-                  }
-                >
-                  <Badge tone={statusTone[statusOf(f)]}>
-                    {statusLabel[statusOf(f)]}
-                  </Badge>
-                </button>
+                <Badge tone={statusTone[statusOf(f)]}>
+                  {statusLabel[statusOf(f)]}
+                </Badge>
+                {statusOf(f) !== "rezolvat" && (
+                  <button
+                    onClick={() => resolve(f.id, f.message)}
+                    className="inline-flex items-center gap-1 rounded-full border border-ivory-300 bg-white px-2 py-1 text-[11px] font-medium text-ink-500 active:scale-[0.97]"
+                  >
+                    <Check className="size-3" strokeWidth={2.6} />
+                    Marchează rezolvat
+                  </button>
+                )}
                 {f.wentToGoogle && (
                   <span className="inline-flex items-center gap-1 text-[11.5px] text-gold-600">
                     <CheckCircle2 className="size-3" strokeWidth={2} />
