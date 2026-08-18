@@ -6,7 +6,6 @@ import {
   BadgeEuro,
   BookOpen,
   CreditCard,
-  Command,
   Gauge,
   LayoutDashboard,
   LogIn,
@@ -159,7 +158,7 @@ export function CommandPalette() {
         <Search className="size-3.5" />
         Navigare rapidă
         <kbd className="ml-1 flex items-center gap-0.5 rounded-md border border-white/12 bg-white/[0.06] px-1.5 py-0.5 text-[10.5px] text-ink-200">
-          <Command className="size-2.5" />K
+          K
         </kbd>
       </button>
       )}

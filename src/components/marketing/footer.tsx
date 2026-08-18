@@ -104,9 +104,9 @@ export function Footer() {
       {/* Wordmark supradimensionat, întins de la margine la margine — prezent doar ca textură */}
       <div
         aria-hidden
-        className="pointer-events-none relative h-[9vw] max-h-24 overflow-hidden px-5 sm:px-7 lg:px-10"
+        className="pointer-events-none relative h-[clamp(2.5rem,9vw,6rem)] overflow-hidden px-5 sm:px-7 lg:px-10"
       >
-        <div className="absolute inset-x-5 -top-[0.16em] flex justify-between text-[15vw] leading-[0.8] font-medium text-white/[0.02] select-none sm:inset-x-7 lg:inset-x-10">
+        <div className="absolute inset-x-5 -top-[0.16em] flex justify-between text-[clamp(2.75rem,15vw,10rem)] leading-[0.8] font-medium text-white/[0.025] select-none sm:inset-x-7 lg:inset-x-10">
           {"Recenziata".split("").map((ch, i) => (
             <span key={i}>{ch}</span>
           ))}

@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useInView } from "framer-motion";
 import {
   ArrowRight,
   CreditCard,
+  Eye,
   Lock,
   MessageSquareQuote,
   Play,
@@ -57,6 +58,7 @@ export function InteractiveDemo() {
   const [index, setIndex] = useState(0);
   const [live, setLive] = useState(false);
   const [auto, setAuto] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const { toast } = useToast();
   const sectionRef = useRef<HTMLElement>(null);
   // Fără asta, secțiunea și-ar reface starea la fiecare 3,4 s chiar și când
@@ -64,19 +66,40 @@ export function InteractiveDemo() {
   const inView = useInView(sectionRef, { margin: "-15% 0px -15% 0px" });
 
   useEffect(() => {
-    if (!auto || live || !inView) return;
+    if (!auto || live || playing || !inView) return;
     const t = window.setTimeout(() => setIndex((i) => (i + 1) % steps.length), 3600);
     return () => window.clearTimeout(t);
-  }, [auto, live, index, inView]);
+  }, [auto, live, playing, index, inView]);
+
+  // Redare automată, o singură dată, declanșată de „Privește demo-ul" —
+  // parcurge cei 4 pași cu pauze realiste, fără nicio atingere a telefonului.
+  useEffect(() => {
+    if (!playing) return;
+    if (index >= steps.length - 1) {
+      const t = window.setTimeout(() => setPlaying(false), 2200);
+      return () => window.clearTimeout(t);
+    }
+    const t = window.setTimeout(() => setIndex((i) => i + 1), 2200);
+    return () => window.clearTimeout(t);
+  }, [playing, index]);
+
+  const playDemo = useCallback(() => {
+    setAuto(false);
+    setLive(false);
+    setPlaying(true);
+    setIndex(0);
+  }, []);
 
   const startLive = useCallback(() => {
     setAuto(false);
+    setPlaying(false);
     setLive(true);
     setIndex(2);
   }, []);
 
   const select = useCallback((i: number) => {
     setAuto(false);
+    setPlaying(false);
     setLive(false);
     setIndex(i);
   }, []);
@@ -106,7 +129,8 @@ export function InteractiveDemo() {
           </p>
         </div>
 
-            <ol className="relative mt-12">
+            <div className="mt-12 lg:rounded-2xl lg:border lg:border-white/[0.07] lg:bg-white/[0.02] lg:p-6 lg:pr-8 lg:shadow-[0_30px_80px_-40px_rgba(8,8,10,0.6)]">
+            <ol className="relative">
               <div
                 aria-hidden
                 className="absolute top-2 bottom-2 left-[19px] w-px bg-white/[0.08]"
@@ -133,12 +157,12 @@ export function InteractiveDemo() {
                     >
                       <span
                         className={cn(
-                          "relative z-10 grid size-10 shrink-0 place-items-center rounded-xl border transition-all duration-500",
+                          "relative z-10 grid size-10 shrink-0 place-items-center rounded-xl border bg-gradient-to-b transition-all duration-500",
                           active
-                            ? "border-gold-400/40 bg-gold-400/12 text-gold-300"
+                            ? "border-gold-400/40 from-gold-400/18 to-gold-500/6 text-gold-300"
                             : past
-                              ? "border-white/12 bg-ink-800 text-ink-200"
-                              : "border-white/[0.08] bg-ink-900 text-ink-400 group-hover:border-white/20 group-hover:text-ink-200",
+                              ? "border-white/12 from-ink-700 to-ink-800 text-ink-200"
+                              : "border-white/[0.08] from-ink-850 to-ink-900 text-ink-400 group-hover:border-white/20 group-hover:text-ink-200",
                         )}
                       >
                         {active && (
@@ -194,8 +218,19 @@ export function InteractiveDemo() {
                 );
               })}
             </ol>
+            </div>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              <Button
+                onClick={playDemo}
+                variant="outlineLight"
+                size="lg"
+                disabled={playing}
+                className="w-full sm:w-auto"
+              >
+                <Eye className="size-4" strokeWidth={1.8} />
+                {playing ? "Se redă…" : "Privește demo-ul"}
+              </Button>
               <Button onClick={startLive} variant="gold" size="lg" sheen className="w-full sm:w-auto">
                 <Play className="size-4" fill="currentColor" strokeWidth={0} />
                 Testează fluxul
@@ -210,6 +245,20 @@ export function InteractiveDemo() {
                 <ArrowRight className="size-4" />
               </Button>
             </div>
+
+            {playing && (
+              <motion.p
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-5 flex items-center gap-2 text-[13px] text-ink-300"
+              >
+                <span className="relative flex size-2">
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-gold-400 opacity-60" />
+                  <span className="relative inline-flex size-2 rounded-full bg-gold-400" />
+                </span>
+                Se redă automat — fără nicio atingere.
+              </motion.p>
+            )}
 
             {live && (
               <motion.p
@@ -351,19 +400,17 @@ function LockScreen() {
           className="mt-auto mb-[9%] w-[86%] rounded-2xl border border-white/12 bg-white/[0.13] p-3 backdrop-blur-md"
         >
           <div className="flex items-center gap-2.5">
-            <LogoMark className="size-8" />
-            <div className="min-w-0 flex-1">
-              <p className="text-[11px] leading-tight font-medium text-white">
-                Recenziata.ro
-              </p>
-              <p className="truncate text-[9.5px] text-white/55">
-                recenziata.ro/maison-noir
-              </p>
-            </div>
-            <span className="rounded-full bg-white px-2.5 py-1 text-[9.5px] font-medium text-ink-950">
+            <LogoMark className="size-8 shrink-0" />
+            <p className="min-w-0 flex-1 truncate text-[11px] leading-tight font-medium text-white">
+              Recenziata.ro
+            </p>
+            <span className="shrink-0 rounded-full bg-white px-2.5 py-1 text-[9.5px] font-medium text-ink-950">
               Deschide
             </span>
           </div>
+          <p className="mt-1.5 text-[9.5px] leading-snug text-white/55">
+            recenziata.ro/maison-noir
+          </p>
         </motion.div>
 
         <div className="mb-[6%] flex items-center gap-1.5 text-[9.5px] text-white/45">

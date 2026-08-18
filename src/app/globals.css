@@ -361,7 +361,7 @@
 }
 
 .emit-ring {
-  animation: rec-emit 2.9s cubic-bezier(0.16, 0.8, 0.34, 1) infinite;
+  animation: rec-emit 2.9s cubic-bezier(0.16, 0.8, 0.34, 1) infinite backwards;
   will-change: transform, opacity;
 }
 

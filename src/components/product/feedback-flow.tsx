@@ -113,9 +113,6 @@ export function FeedbackFlow({
     goto("done");
   }, [addFeedback, goto, onComplete]);
 
-  const progress =
-    step === "intro" ? 1 : step === "google" || step === "done" ? 3 : 2;
-
   const pad = compact ? "px-[7.5%]" : "px-6";
 
   return (
@@ -164,20 +161,6 @@ export function FeedbackFlow({
               {businessType}
             </p>
           </div>
-        </div>
-        <div className="flex shrink-0 items-center gap-1 pl-2" aria-hidden>
-          {[1, 2, 3].map((i) => (
-            <span key={i} className="block h-[5px] w-4">
-              <motion.span
-                animate={{
-                  scaleX: i === progress ? 1 : 0.3125,
-                  opacity: i <= progress ? 1 : 0.28,
-                }}
-                transition={{ duration: 0.45, ease }}
-                className="block h-full w-full origin-left rounded-full bg-gold-500"
-              />
-            </span>
-          ))}
         </div>
       </header>
 
