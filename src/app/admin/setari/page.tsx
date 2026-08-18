@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/toast";
 import { cn, initials } from "@/lib/utils";
 
 const team = [
-  { name: "Mario Purdescu", email: "mario@recenziata.ro", role: "Owner" },
+  { name: "Andrei Munteanu", email: "andrei@recenziata.ro", role: "Owner" },
   { name: "Elena Dobre", email: "elena@recenziata.ro", role: "Operațiuni" },
   { name: "Tudor Ilie", email: "tudor@recenziata.ro", role: "Suport" },
 ];
