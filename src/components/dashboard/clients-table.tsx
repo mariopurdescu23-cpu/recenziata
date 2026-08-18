@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpDown, MoreHorizontal, Search } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Badge } from "@/components/ui/primitives";
+import { Badge, ScrollFadeRow } from "@/components/ui/primitives";
 import { clients, type ClientRow, type ClientStatus } from "@/lib/data";
 import { cn, formatNumber, initials } from "@/lib/utils";
 
@@ -86,7 +86,7 @@ export function ClientsTable({
           </div>
 
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-            <div className="no-scrollbar mask-fade-x flex gap-1 overflow-x-auto">
+            <ScrollFadeRow className="flex gap-1">
               {statusFilters.map((s) => (
                 <button
                   key={s}
@@ -101,7 +101,7 @@ export function ClientsTable({
                   {s}
                 </button>
               ))}
-            </div>
+            </ScrollFadeRow>
 
             <select
               value={plan}

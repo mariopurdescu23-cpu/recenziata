@@ -5,7 +5,7 @@ import { Factory, Package, PackageCheck, Plus, Truck } from "lucide-react";
 import { useState } from "react";
 import { PageHeader, Panel } from "@/components/dashboard/shell";
 import { StatCard } from "@/components/dashboard/stat-card";
-import { Badge } from "@/components/ui/primitives";
+import { Badge, ScrollFadeRow } from "@/components/ui/primitives";
 import { cardOrders, type CardStatus } from "@/lib/data";
 import { cn, formatLei } from "@/lib/utils";
 
@@ -50,7 +50,7 @@ export default function AdminCardsPage() {
 
       <div className="mt-4">
         <Panel bodyClassName="p-0">
-          <div className="no-scrollbar mask-fade-x flex gap-1.5 overflow-x-auto border-b border-ivory-200 p-4">
+          <ScrollFadeRow className="flex gap-1.5 border-b border-ivory-200 p-4">
             {filters.map((f) => (
               <button
                 key={f}
@@ -65,7 +65,7 @@ export default function AdminCardsPage() {
                 {f}
               </button>
             ))}
-          </div>
+          </ScrollFadeRow>
 
           <div className="hidden md:block">
             <table className="w-full border-collapse text-left">

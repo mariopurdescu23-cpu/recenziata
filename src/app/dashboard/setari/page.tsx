@@ -15,7 +15,7 @@ import { useState } from "react";
 import { PageHeader, Panel } from "@/components/dashboard/shell";
 import { PhoneFrame } from "@/components/product/phone-frame";
 import { FeedbackFlow } from "@/components/product/feedback-flow";
-import { Badge } from "@/components/ui/primitives";
+import { Badge, ScrollFadeRow } from "@/components/ui/primitives";
 import { useToast } from "@/components/ui/toast";
 import { business } from "@/lib/data";
 import { cn } from "@/lib/utils";
@@ -23,9 +23,9 @@ import { cn } from "@/lib/utils";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const tabs = [
-  { id: "google", label: "Google Reviews", icon: ExternalLink },
-  { id: "profil", label: "Profilul afacerii", icon: Store },
-  { id: "notificari", label: "Notificări", icon: Bell },
+  { id: "google", label: "Google Reviews", shortLabel: "Google", icon: ExternalLink },
+  { id: "profil", label: "Profilul afacerii", shortLabel: "Profil", icon: Store },
+  { id: "notificari", label: "Notificări", shortLabel: "Notificări", icon: Bell },
 ] as const;
 
 type Tab = (typeof tabs)[number]["id"];
@@ -40,7 +40,7 @@ export default function SettingsPage() {
         subtitle="Conectarea la Google, datele afacerii și alertele pe care le primești."
       />
 
-      <div className="no-scrollbar mask-fade-x -mx-1 mb-4 flex gap-1 overflow-x-auto px-1">
+      <ScrollFadeRow className="-mx-1 mb-4 flex gap-1 px-1">
         {tabs.map((t) => {
           const Icon = t.icon;
           const active = tab === t.id;
@@ -61,11 +61,12 @@ export default function SettingsPage() {
                 />
               )}
               <Icon className="relative size-3.5" strokeWidth={1.9} />
-              <span className="relative">{t.label}</span>
+              <span className="relative sm:hidden">{t.shortLabel}</span>
+              <span className="relative hidden sm:inline">{t.label}</span>
             </button>
           );
         })}
-      </div>
+      </ScrollFadeRow>
 
       <AnimatePresence mode="wait">
         <motion.div

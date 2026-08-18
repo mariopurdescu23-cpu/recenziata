@@ -299,3 +299,60 @@ export function SectionHeading({
     </div>
   );
 }
+
+/* -------------------------------------------------------------------------- */
+/*  ScrollFadeRow — rând orizontal scrollabil, cu estompare doar pe            */
+/*  marginile care chiar ascund conținut, nu permanent pe ambele.             */
+/* -------------------------------------------------------------------------- */
+
+export function ScrollFadeRow({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [fade, setFade] = useState({ left: false, right: false });
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    function update() {
+      const { scrollLeft, scrollWidth, clientWidth } = el!;
+      setFade({
+        left: scrollLeft > 4,
+        right: scrollLeft + clientWidth < scrollWidth - 4,
+      });
+    }
+
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", update);
+      ro.disconnect();
+    };
+  }, []);
+
+  const mask =
+    fade.left && fade.right
+      ? "linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent)"
+      : fade.right
+        ? "linear-gradient(to right, black calc(100% - 24px), transparent)"
+        : fade.left
+          ? "linear-gradient(to right, transparent, black 24px)"
+          : "none";
+
+  return (
+    <div
+      ref={ref}
+      style={{ maskImage: mask, WebkitMaskImage: mask }}
+      className={cn("no-scrollbar overflow-x-auto", className)}
+    >
+      {children}
+    </div>
+  );
+}

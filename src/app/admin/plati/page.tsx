@@ -5,7 +5,7 @@ import { CreditCard, Download, Receipt, TriangleAlert, Wallet } from "lucide-rea
 import { useState } from "react";
 import { PageHeader, Panel } from "@/components/dashboard/shell";
 import { StatCard } from "@/components/dashboard/stat-card";
-import { Badge } from "@/components/ui/primitives";
+import { Badge, ScrollFadeRow } from "@/components/ui/primitives";
 import { payments } from "@/lib/data";
 import { cn, formatLei } from "@/lib/utils";
 
@@ -47,7 +47,7 @@ export default function AdminPaymentsPage() {
       <div className="mt-4">
         <Panel bodyClassName="p-0">
           <div className="flex flex-col gap-3 border-b border-ivory-200 p-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="no-scrollbar mask-fade-x flex gap-1.5 overflow-x-auto">
+            <ScrollFadeRow className="flex gap-1.5">
               {filters.map((f) => (
                 <button
                   key={f}
@@ -62,7 +62,7 @@ export default function AdminPaymentsPage() {
                   {f}
                 </button>
               ))}
-            </div>
+            </ScrollFadeRow>
             <p className="text-[12.5px] text-ink-400">
               Total încasat afișat:{" "}
               <span className="tnum font-medium text-ink-950">{formatLei(incasat)}</span>

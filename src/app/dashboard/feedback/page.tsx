@@ -4,7 +4,7 @@ import { Download, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { PageHeader, Panel } from "@/components/dashboard/shell";
 import { FeedbackTable } from "@/components/dashboard/feedback-table";
-import { Badge } from "@/components/ui/primitives";
+import { Badge, ScrollFadeRow } from "@/components/ui/primitives";
 import { useDemo } from "@/lib/demo-store";
 import { recentFeedback, type FeedbackCategory } from "@/lib/data";
 import { cn } from "@/lib/utils";
@@ -96,7 +96,7 @@ export default function FeedbackPage() {
             </div>
           </div>
 
-          <div className="no-scrollbar mask-fade-x -mx-1 flex gap-1.5 overflow-x-auto px-1">
+          <ScrollFadeRow className="-mx-1 flex gap-1.5 px-1">
             {categories.map((c) => (
               <button
                 key={c}
@@ -111,7 +111,7 @@ export default function FeedbackPage() {
                 {c}
               </button>
             ))}
-          </div>
+          </ScrollFadeRow>
         </div>
 
         <div className="flex items-center justify-between px-4 py-2.5">
