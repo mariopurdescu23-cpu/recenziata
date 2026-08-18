@@ -92,10 +92,9 @@ export function Counter({
   );
 
   useEffect(() => {
-    if (reduced) {
-      mv.jump(value);
-      return;
-    }
+    // La reduced-motion, `display` pornește deja pe valoarea finală —
+    // nu mai atingem spring-ul ca să nu declanșeze o animație de numărare.
+    if (reduced) return;
     if (inView) mv.set(value);
   }, [inView, mv, value, reduced]);
 

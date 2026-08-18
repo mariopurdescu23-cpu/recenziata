@@ -204,10 +204,13 @@ export function PricingSection({
             </div>
             <div className="flex shrink-0 items-center gap-6">
               <div className="text-right">
-                <p className="tighter tnum text-[30px] leading-none font-medium text-ivory-100">
-                  99
+                <p className="flex items-baseline justify-end gap-1.5">
+                  <span className="tighter tnum text-[30px] leading-none font-medium text-ivory-100">
+                    99
+                  </span>
+                  <span className="text-[13px] text-ink-300">lei / card</span>
                 </p>
-                <p className="mt-1 text-[11.5px] text-ink-400">lei / card, o dată</p>
+                <p className="mt-1.5 text-[11.5px] text-ink-400">plată unică</p>
               </div>
               <Button href="/preturi#comparatie" variant="outlineLight" size="md">
                 Detalii

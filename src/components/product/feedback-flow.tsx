@@ -95,7 +95,11 @@ export function FeedbackFlow({
     }, 1150);
   }, [reason, note, addFeedback, goto, onComplete]);
 
-  const submitPositive = useCallback(() => {
+  const goToGoogle = useCallback(() => {
+    goto("google");
+  }, [goto]);
+
+  const publishReview = useCallback(() => {
     if (!submitted.current) {
       submitted.current = true;
       addFeedback({
@@ -106,7 +110,7 @@ export function FeedbackFlow({
       });
       onComplete?.({ sentiment: "pozitiv", category: "Apreciere" });
     }
-    goto("google");
+    goto("done");
   }, [addFeedback, goto, onComplete]);
 
   const progress =
@@ -137,7 +141,7 @@ export function FeedbackFlow({
         className={cn(
           "relative z-10 flex shrink-0 items-center justify-between",
           pad,
-          compact ? "pt-[9%] pb-[3%]" : "pt-6 pb-3",
+          compact ? "pt-[15%] pb-[3%]" : "pt-6 pb-3",
         )}
       >
         <div className="flex min-w-0 items-center gap-2.5">
@@ -200,7 +204,7 @@ export function FeedbackFlow({
             {step === "positive" && (
               <Positive
                 compact={compact}
-                onGoogle={submitPositive}
+                onGoogle={goToGoogle}
                 onBack={() => goto("intro", -1)}
               />
             )}
@@ -225,7 +229,7 @@ export function FeedbackFlow({
                 businessName={businessName}
                 stars={stars}
                 setStars={setStars}
-                onDone={() => goto("done")}
+                onDone={publishReview}
               />
             )}
             {step === "done" && <Done compact={compact} onReset={reset} />}
