@@ -1,6 +1,6 @@
 import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Reveal } from "@/components/ui/primitives";
+import { Reveal, ScrollFadeRow } from "@/components/ui/primitives";
 import { Glow } from "@/components/ui/glow";
 
 const points = ["14 zile gratuit", "Fără contract minim", "Livrare în 3–5 zile"];
@@ -39,17 +39,20 @@ export function FinalCta() {
           </div>
         </Reveal>
         <Reveal delay={0.24}>
-          <ul className="mt-9 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
+          <ScrollFadeRow
+            as="ul"
+            className="mt-9 flex items-center justify-start gap-x-4 gap-y-3 px-5 sm:flex-wrap sm:justify-center sm:gap-x-7 sm:px-0"
+          >
             {points.map((p) => (
               <li
                 key={p}
-                className="inline-flex items-center gap-2 text-[13px] text-ink-300"
+                className="inline-flex shrink-0 items-center gap-1.5 text-[12px] whitespace-nowrap text-ink-300 sm:gap-2 sm:text-[13px]"
               >
-                <Check className="size-3.5 text-gold-400" strokeWidth={2.2} />
+                <Check className="size-3 shrink-0 text-gold-400 sm:size-3.5" strokeWidth={2.2} />
                 {p}
               </li>
             ))}
-          </ul>
+          </ScrollFadeRow>
         </Reveal>
       </div>
     </section>

@@ -308,9 +308,11 @@ export function SectionHeading({
 export function ScrollFadeRow({
   children,
   className,
+  as: Tag = "div",
 }: {
   children: ReactNode;
   className?: string;
+  as?: "div" | "ul";
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [fade, setFade] = useState({ left: false, right: false });
@@ -347,12 +349,12 @@ export function ScrollFadeRow({
           : "none";
 
   return (
-    <div
-      ref={ref}
+    <Tag
+      ref={ref as never}
       style={{ maskImage: mask, WebkitMaskImage: mask }}
       className={cn("no-scrollbar overflow-x-auto", className)}
     >
       {children}
-    </div>
+    </Tag>
   );
 }

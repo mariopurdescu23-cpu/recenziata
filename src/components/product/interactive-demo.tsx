@@ -159,7 +159,10 @@ export function InteractiveDemo() {
                     >
                       <span
                         className={cn(
-                          "relative z-10 grid size-10 shrink-0 place-items-center rounded-xl border bg-gradient-to-b transition-all duration-500",
+                          // bg-ink-950 e fundalul opac de sub gradient — fără el,
+                          // tonurile translucide (starea activă) lasă linia să se
+                          // vadă prin iconiță în loc să se oprească la marginea ei.
+                          "relative z-10 grid size-10 shrink-0 place-items-center rounded-xl border bg-ink-950 bg-gradient-to-b transition-all duration-500",
                           active
                             ? "border-gold-400/40 from-gold-400/18 to-gold-500/6 text-gold-300"
                             : past
@@ -315,23 +318,30 @@ export function InteractiveDemo() {
             </div>
 
             {/* Progres tapabil, la îndemâna degetului mare — evită derularea
-                până la listă doar ca să schimbi pasul. */}
-            {!live && (
-              <div className="flex items-center gap-1.5 lg:hidden">
-                {steps.map((s, i) => (
-                  <button
-                    key={s.id}
-                    onClick={() => select(i)}
-                    aria-label={`Pasul ${i + 1}: ${s.title}`}
-                    aria-current={i === index}
-                    className={cn(
-                      "h-1.5 rounded-full transition-all duration-300",
-                      i === index ? "w-5 bg-gold-400" : "w-1.5 bg-white/20",
-                    )}
-                  />
-                ))}
-              </div>
-            )}
+                până la listă doar ca să schimbi pasul. Rămâne montat (doar
+                invizibil în modul live) ca telefonul să nu sară pe verticală
+                când intri/ieși din simulator. */}
+            <div
+              className={cn(
+                "flex items-center gap-1.5 lg:hidden",
+                live && "invisible",
+              )}
+            >
+              {steps.map((s, i) => (
+                <button
+                  key={s.id}
+                  onClick={() => select(i)}
+                  tabIndex={live ? -1 : 0}
+                  aria-hidden={live}
+                  aria-label={`Pasul ${i + 1}: ${s.title}`}
+                  aria-current={i === index}
+                  className={cn(
+                    "h-1.5 rounded-full transition-all duration-300",
+                    i === index ? "w-5 bg-gold-400" : "w-1.5 bg-white/20",
+                  )}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
