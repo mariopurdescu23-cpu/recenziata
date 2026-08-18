@@ -18,7 +18,7 @@ export function Testimonials() {
           </Reveal>
         </div>
 
-        <div className="mt-12 grid gap-px overflow-hidden rounded-2xl bg-ivory-300 sm:mt-14 lg:grid-cols-3">
+        <div className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-2xl bg-ivory-300 sm:mt-14 lg:grid-cols-3">
           {testimonials.map((t, i) => (
             <Reveal key={t.author} delay={i * 0.08} className="bg-white">
               <figure className="flex h-full flex-col p-6 sm:p-8">
